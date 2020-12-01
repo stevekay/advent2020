@@ -2,6 +2,8 @@ awk
 ````
 steve@DESKTOP-E197DDI:~/advent2020/01$ ./part1.awk <input.txt
 982464
+steve@DESKTOP-E197DDI:~/advent2020/01$ ./part2.awk <input.txt
+162292410
 steve@DESKTOP-E197DDI:~/advent2020/01$
 ````
 perl
