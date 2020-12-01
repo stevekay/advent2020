@@ -6,7 +6,7 @@ while(<>) {
 for $x (@a) {
  for $y (@a) {
   if($x + $y == 2020) {
-   die($x * $y)
+   die("$x $y ",$x*$y)
   }
  }
 }
