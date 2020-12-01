@@ -1,3 +1,9 @@
+awk
+````
+steve@DESKTOP-E197DDI:~/advent2020/01$ ./part1.awk <input.txt
+982464
+steve@DESKTOP-E197DDI:~/advent2020/01$
+````
 perl
 ````
 steve@DESKTOP-E197DDI:~/advent2020/01$ ./part1.pl <input.txt
