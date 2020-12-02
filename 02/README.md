@@ -18,4 +18,6 @@ awk
 ````
 steve@DESKTOP-E197DDI:~/advent2020/02$ ./part1.awk <input.txt
 434
+steve@DESKTOP-E197DDI:~/advent2020/02$ ./part2.awk <input.txt
+509
 steve@DESKTOP-E197DDI:~/advent2020/02$
