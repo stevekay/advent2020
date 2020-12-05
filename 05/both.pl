@@ -1,48 +1,28 @@
 #!/usr/bin/perl
-@a=();
-$max=-1;
 while(<>) {
- #print "got line $_";
  $hi=127;
- $lo=0;
+ $row=0;
  foreach $c (split(//,substr($_,0,7))) {
- # print "char $c\n";
   if($c eq 'F') {
-   $hi=($hi-1-$lo)/2+$lo;
-  } 
-  if($c eq 'B') {
-   $lo=($hi+1-$lo)/2+$lo;
+   $hi=($hi-1-$row)/2+$row;
+   next;
   }
- # print "lo=$lo hi=$hi\n";
+  $row=($hi+1-$row)/2+$row;
  }
- $row=$lo;
- #print "   seat is in row $row\n";
 
  $hi=7;
- $lo=0;
+ $col=0;
  foreach $c (split(//,substr($_,7,3))) {
- # print "seat lr $c\n";
   if($c eq 'L') {
-   $hi=($hi-1-$lo)/2+$lo;
+   $hi=($hi-1-$col)/2+$col;
+   next;
   }
-  if($c eq 'R') {
-    $lo=($hi+1-$lo)/2+$lo;
-  }
- # print "lo=$lo hi=$hi\n";
+  $col=($hi+1-$col)/2+$col;
  }
- #print "got $lo\n";
- $column=$lo;
 
- $id=$row*8+$column;
-
- #print "$_: row ",$row,", column ",$column," seat ID ",$id,"\n";
+ $id=$row*8+$col;
  if($id > $max) { $max=$id }
  $a[$id]='x';
-
- 
- #print "--------\n";
-  
- 
 }
 print "highest=$max\n";
 for $b ( 1 .. ($#a)-1 ) {
