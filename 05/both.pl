@@ -13,6 +13,6 @@ while(<>) {
  if($_>$max){$max=$_}
  $a[$_]='x'
 }
-for$b(1..$#a-1){
- print"$max $b"if($a[$b] ne 'x'&&$a[$b-1]&&$a[$b+1])
+for(1..$#a-1){
+ print"$max $_"if($a[$_] ne 'x'&&$a[$_-1]&&$a[$_+1])
 }
