@@ -3,58 +3,32 @@ while(<>) {
  chomp;
  push @p,$_;
 }
-for $x (0 .. $#p) {
- printf "%03d %s\n",$x,$p[$x];
-}
 
 for $x ( 0 .. $#p) {
- print "attempt $x\n";
- if($p[$x] =~ /^jmp(.*)/) {
-  print "hacking the jmp at pos $x to be a nop\n";
-  print "was ->\n";
-  for $x (0 .. $#p) {
-   printf "  %03d %s\n",$x,$p[$x];
-  }
-  $bak=$p[$x];
-  $p[$x]="nop" . $1;
-  print "now ->\n";
-  for $x (0 .. $#p) {
-   printf "  %03d %s\n",$x,$p[$x];
-  }
+ if($p[$x] =~ /jmp(.*)/) {
+  $p[$x]="nop$1";
   $zz=&runprog;
-  $p[$x]=$bak;
-  print " -> result = $zz\n\n\n";
-  if($zz != 'abort') {
-   print "win !!! $zz\n\n";
-   exit;
-  }
+  $p[$x]="jmp$1";
+  die $zz if($zz != 'abort');
  }
+
+ if($p[$x] =~ /nop(.*)/) {
+  $p[$x] = "jmp$1";
+  $zz = &runprog;
+  $p[$x] = "nop$1";
+  die $zz if($zz != 'abort');
+ }
+
 }
 sub runprog() {
- $pos=0;
- $acc=0;
- undef @z;
+ my($pos,$acc,@z);
  while( $pos <= $#p ) {
-  if(defined(@z[$pos])) {
-   print "aborted at pos $pos with acc $acc\n";
-   return "abort";
-   exit;
-  }
-  $z[$pos]=1;
-  print "at pos $pos, processing instruction ",$p[$pos],"\n"; 
-  if($p[$pos] =~ /^jmp (.*)/) {
-   print " -> got a jump to $1\n";
-   $pos += $1;
-   print " -> so new pos is $pos\n";
-   next;
-  }
-  if($p[$pos] =~ /acc (.*)/) {
-   $acc += $1;
-  }
-  $pos++;
-  print "\n\n";
+  return 'abort' if(defined(@z[$pos]));
+  $z[$pos] = 1;
+  $pos += $1 - 1 if($p[$pos] =~ /^jmp (.*)/);
+  $acc += $1 if($p[$pos] =~ /acc (.*)/);
+  $pos ++;
  }
- print "acc=$acc\n";
- return $acc;
+ return $acc
 }
 
