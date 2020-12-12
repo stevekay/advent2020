@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 @p=<STDIN>;
-while(1) {
- die $acc if(defined(@z[$pos]));
+while(defined(@z[$pos])==0) {
  $z[$pos]=1;
  if($p[$pos] =~ /jmp (\S+)/) {
   $pos += $1;
@@ -9,4 +8,4 @@ while(1) {
  }
  $acc += $1 if($p[$pos++] =~ /acc (\S+)/);
 }
-
+die $acc;
