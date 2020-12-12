@@ -5,24 +5,18 @@ while(<>) {
 }
 
 for $x ( 0 .. $#p) {
- if($p[$x] =~ /jmp(.*)/) {
-  $p[$x]="nop$1";
+ if($p[$x] =~ /(jmp|nop)(.*)/) {
+  $bak=$p[$x];
+  if($1 eq 'jmp') { $p[$x]="nop$2" }
+  if($1 eq 'nop') { $p[$x]="jmp$2" }
   $zz=&runprog;
-  $p[$x]="jmp$1";
   die $zz if($zz != 'abort');
+  $p[$x]=$bak;
  }
-
- if($p[$x] =~ /nop(.*)/) {
-  $p[$x] = "jmp$1";
-  $zz = &runprog;
-  $p[$x] = "nop$1";
-  die $zz if($zz != 'abort');
- }
-
 }
 sub runprog() {
  my($pos,$acc,@z);
- while( $pos <= $#p ) {
+ while( $pos <= $#p && defined(@z[$pos] == 0) ) {
   return 'abort' if(defined(@z[$pos]));
   $z[$pos] = 1;
   $pos += $1 - 1 if($p[$pos] =~ /^jmp (.*)/);
